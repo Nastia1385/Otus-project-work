@@ -1,20 +1,24 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class OtusTests {
     WebDriver driver;
-    String userName;
-    String email;
+
+
 
     @BeforeAll
     public static void setup() {
@@ -25,14 +29,14 @@ public class OtusTests {
     public void startDriver() {
         ChromeOptions options = new ChromeOptions();
         driver = new ChromeDriver(options);
-        userName = RandomStringUtils.random(10, true, true);
-        email = userName + "@gmail.com";
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
-
     }
 
     @AfterEach
+    //public void deleteWits() {
+
+    //}
     public void close() {
         if (driver != null) {
             driver.quit();
@@ -72,6 +76,21 @@ public class OtusTests {
         String resultMessage = div.getText();
         String expectedMassage = "Неверное имя пользователя или пароль";
         assertEquals(expectedMassage, resultMessage);
+    }
+
+    //TODO доделать поиск
+    @Test
+    public void userSearch() {
+        driver.manage().window().maximize();
+        driver.get("https://wishlist.otus.kartushin.su/wishlists");
+
+        WebElement inputRequiredType = driver.findElement(By.className("form-control"));
+        inputRequiredType.sendKeys("Sofia");
+        WebElement inputPassword = driver.findElement(By.cssSelector("input[type='password'"));
+        inputPassword.sendKeys("Sofa12");
+        WebElement button = driver.findElement(By.cssSelector("button[type='submit']"));
+        button.click();
+
     }
 
     @Test
@@ -122,6 +141,48 @@ public class OtusTests {
         assertEquals(expectedMassage, resultMessage);
     }
 
+    @Test
+    public void deleteWish() {
+        driver.manage().window().maximize();
+        driver.get("https://wishlist.otus.kartushin.su/wishlists");
+
+        WebElement inputRequiredType = driver.findElement(By.className("form-control"));
+        inputRequiredType.sendKeys("Sofia");
+        WebElement inputPassword = driver.findElement(By.cssSelector("input[type='password'"));
+        inputPassword.sendKeys("Sofa12");
+        WebElement button = driver.findElement(By.cssSelector("button[type='submit']"));
+        button.click();
+        WebElement buttonType = driver.findElement(By.xpath("//button[contains(text(),'Создать новый список')]"));
+        buttonType.click();
+        WebElement input = driver.findElement(By.xpath("//input[@class='form-control']"));
+        input.sendKeys("Купить диван");
+        WebElement btnCreate = driver.findElement(By.xpath("//button[@type='submit']"));
+        btnCreate.click();
+        WebElement divCard = driver.findElement(By.xpath("//div[@class='card-body']"));
+        WebElement btnDelete = driver.findElement(By.xpath("//button[contains(text(),'Удалить')]"));
+        btnDelete.click();
+        assertFalse(divCard.isDisplayed(), "Элемент не удалён!");
+    }
+
+    @Test
+    public void exitUser() {
+        driver.manage().window().maximize();
+        driver.get("https://wishlist.otus.kartushin.su/wishlists");
+
+        WebElement inputRequiredType = driver.findElement(By.className("form-control"));
+        inputRequiredType.sendKeys("Sofia");
+        WebElement inputPassword = driver.findElement(By.cssSelector("input[type='password'"));
+        inputPassword.sendKeys("Sofa12");
+        WebElement button = driver.findElement(By.cssSelector("button[type='submit']"));
+        button.click();
+        WebElement btnRole = driver.findElement(By.cssSelector(".nav-link[tabindex='0']"));
+        btnRole.click();
+        WebElement h2 = driver.findElement(By.xpath("//h2[contains(text(),'Вход в систему')]"));
+        String resultMessage = h2.getText();
+        String expectedMassage = "Вход в систему";
+        assertEquals(expectedMassage, resultMessage);
+    }
+
     //@Test
     public void givenUsingApache_whenGeneratingRandomStringBounded_thenCorrect() {
         int length = 10;
@@ -130,30 +191,6 @@ public class OtusTests {
 
         String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
         System.out.println(generatedString);
-    }
-
-    //@Test
-    public void Test3() {
-        driver.manage().window().fullscreen();
-        driver.get("https://otus.home.kartushin.su/training.html");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
-        WebElement input = driver.findElement(By.id("name"));
-        input.sendKeys("Анастасия");
-        WebElement inputType = driver.findElement(By.id("email"));
-        inputType.sendKeys("12031985@TTT.gmail.com");
-        WebElement button = driver.findElement(By.cssSelector("button[type='submit']"));
-        button.click();
-        WebElement div = driver.findElement(By.id("messageBox"));
-        String rgbaColor = div.getCssValue("background-color");
-        String resultMessage = div.getText();
-        String expectedMessage = "Форма отправлена с именем: Анастасия и email: 12031985@TTT.gmail.com";
-        assertEquals("rgba(234, 248, 230, 1)", rgbaColor);
-        assertEquals(expectedMessage, resultMessage);
-
-        //driver.switchTo().alert().sendKeys("green");
-        //String expected = "Форма отправлена с именем: Анастасия и email: 12031985@TTT.gmail.com";
-        //String value = input.getAttribute("Форма отправлена с именем: Анастасия и email: 12031985@TTT.gmail.com");
-        //assertEquals(expected, value);
     }
 }
 
