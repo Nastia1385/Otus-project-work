@@ -1,58 +1,33 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
+import main.AbsBaseTest;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class OtusTests {
-    WebDriver driver;
+public class OtusTests extends AbsBaseTest {
 
-
-
-    @BeforeAll
-    public static void setup() {
-        WebDriverManager.chromedriver().setup();
-    }
+    private final static String login = "Sofia";
+    private final static String password = "Sofa12";
 
     @BeforeEach
     public void startDriver() {
-        ChromeOptions options = new ChromeOptions();
-        driver = new ChromeDriver(options);
+        driver.get("https://wishlist.otus.kartushin.su/wishlists");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
     }
 
-    @AfterEach
-    //public void deleteWits() {
-
-    //}
-    public void close() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
-
-
     @Test
     public void authorizationWithCorrectData() {
-        driver.manage().window().maximize();
-        driver.get("https://wishlist.otus.kartushin.su/wishlists");
-
         WebElement inputRequiredType = driver.findElement(By.className("form-control"));
-        inputRequiredType.sendKeys("Sofia");
+        inputRequiredType.sendKeys(login);
         WebElement inputPassword = driver.findElement(By.cssSelector("input[type='password'"));
-        inputPassword.sendKeys("Sofa12");
+        inputPassword.sendKeys(password);
         WebElement button = driver.findElement(By.cssSelector("button[type='submit']"));
         button.click();
         WebElement h2 = driver.findElement(By.xpath("//h2[contains(text(),'Мои списки желаний')]"));
@@ -63,13 +38,11 @@ public class OtusTests {
 
     @Test
     public void authorizationWithAnIncorrectPassword() {
-        driver.manage().window().maximize();
-        driver.get("https://wishlist.otus.kartushin.su/wishlists");
-
         WebElement inputRequiredType = driver.findElement(By.cssSelector("input[type='text'"));
-        inputRequiredType.sendKeys("Sofia");
+        inputRequiredType.sendKeys(login);
         WebElement inputPassword = driver.findElement(By.cssSelector("input[type='password'"));
-        inputPassword.sendKeys("Sofa1");
+        String password = RandomStringUtils.random(5, true, true);
+        inputPassword.sendKeys(password);
         WebElement button = driver.findElement(By.cssSelector("button[type='submit']"));
         button.click();
         WebElement div = driver.findElement(By.cssSelector("div[role='alert']"));
@@ -81,13 +54,10 @@ public class OtusTests {
     //TODO доделать поиск
     @Test
     public void userSearch() {
-        driver.manage().window().maximize();
-        driver.get("https://wishlist.otus.kartushin.su/wishlists");
-
         WebElement inputRequiredType = driver.findElement(By.className("form-control"));
-        inputRequiredType.sendKeys("Sofia");
+        inputRequiredType.sendKeys(login);
         WebElement inputPassword = driver.findElement(By.cssSelector("input[type='password'"));
-        inputPassword.sendKeys("Sofa12");
+        inputPassword.sendKeys(password);
         WebElement button = driver.findElement(By.cssSelector("button[type='submit']"));
         button.click();
 
@@ -95,13 +65,10 @@ public class OtusTests {
 
     @Test
     public void createWishList() {
-        driver.manage().window().fullscreen();
-        driver.get("https://wishlist.otus.kartushin.su/wishlists");
-
         WebElement inputRequiredType = driver.findElement(By.className("form-control"));
-        inputRequiredType.sendKeys("Sofia");
+        inputRequiredType.sendKeys(login);
         WebElement inputPassword = driver.findElement(By.cssSelector("input[type='password'"));
-        inputPassword.sendKeys("Sofa12");
+        inputPassword.sendKeys(password);
         WebElement button = driver.findElement(By.cssSelector("button[type='submit']"));
         button.click();
         WebElement buttonType = driver.findElement(By.xpath("//button[contains(text(),'Создать новый список')]"));
@@ -118,13 +85,10 @@ public class OtusTests {
 
     @Test
     public void ViewingWish() {
-        driver.manage().window().maximize();
-        driver.get("https://wishlist.otus.kartushin.su/wishlists");
-
         WebElement inputRequiredType = driver.findElement(By.className("form-control"));
-        inputRequiredType.sendKeys("Sofia");
+        inputRequiredType.sendKeys(login);
         WebElement inputPassword = driver.findElement(By.cssSelector("input[type='password'"));
-        inputPassword.sendKeys("Sofa12");
+        inputPassword.sendKeys(password);
         WebElement button = driver.findElement(By.cssSelector("button[type='submit']"));
         button.click();
         WebElement buttonType = driver.findElement(By.xpath("//button[contains(text(),'Создать новый список')]"));
@@ -143,13 +107,10 @@ public class OtusTests {
 
     @Test
     public void deleteWish() {
-        driver.manage().window().maximize();
-        driver.get("https://wishlist.otus.kartushin.su/wishlists");
-
         WebElement inputRequiredType = driver.findElement(By.className("form-control"));
-        inputRequiredType.sendKeys("Sofia");
+        inputRequiredType.sendKeys(login);
         WebElement inputPassword = driver.findElement(By.cssSelector("input[type='password'"));
-        inputPassword.sendKeys("Sofa12");
+        inputPassword.sendKeys(password);
         WebElement button = driver.findElement(By.cssSelector("button[type='submit']"));
         button.click();
         WebElement buttonType = driver.findElement(By.xpath("//button[contains(text(),'Создать новый список')]"));
@@ -166,13 +127,10 @@ public class OtusTests {
 
     @Test
     public void exitUser() {
-        driver.manage().window().maximize();
-        driver.get("https://wishlist.otus.kartushin.su/wishlists");
-
         WebElement inputRequiredType = driver.findElement(By.className("form-control"));
-        inputRequiredType.sendKeys("Sofia");
+        inputRequiredType.sendKeys(login);
         WebElement inputPassword = driver.findElement(By.cssSelector("input[type='password'"));
-        inputPassword.sendKeys("Sofa12");
+        inputPassword.sendKeys(password);
         WebElement button = driver.findElement(By.cssSelector("button[type='submit']"));
         button.click();
         WebElement btnRole = driver.findElement(By.cssSelector(".nav-link[tabindex='0']"));
@@ -181,16 +139,6 @@ public class OtusTests {
         String resultMessage = h2.getText();
         String expectedMassage = "Вход в систему";
         assertEquals(expectedMassage, resultMessage);
-    }
-
-    //@Test
-    public void givenUsingApache_whenGeneratingRandomStringBounded_thenCorrect() {
-        int length = 10;
-        boolean useLetters = true;
-        boolean useNumbers = false;
-
-        String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
-        System.out.println(generatedString);
     }
 }
 

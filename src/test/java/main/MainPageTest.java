@@ -3,7 +3,7 @@ package main;
 import org.junit.jupiter.api.Test;
 import pages.MainPage;
 
-public class MainPage_Test extends AbsBaseTestSuite {
+public class MainPageTest extends AbsBaseTest {
 
     @Test
     public void cheKHeaderByMainPage() {

@@ -1,18 +1,18 @@
 package main;
 
+import factory.BrowserType;
 import factory.WebDriverFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 
-public abstract class AbsBaseTestSuite {
+public abstract class AbsBaseTest {
 
-    protected WebDriver driver;
+    public WebDriver driver;
 
     @BeforeEach
     public void init () {
-        this.driver = new WebDriverFactory().create();
-
+        this.driver = new WebDriverFactory(BrowserType.CHROME).create("--start-fullscreen");
     }
 
     @AfterEach
@@ -21,5 +21,4 @@ public abstract class AbsBaseTestSuite {
             driver.quit();
         }
     }
-
 }
