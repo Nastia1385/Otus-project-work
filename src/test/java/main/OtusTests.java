@@ -1,4 +1,5 @@
-import main.AbsBaseTest;
+package main;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,13 +11,12 @@ import pages.WishListPage;
 
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class OtusTests extends AbsBaseTest {
 
-    private final static String login = "Sofia";
-    private final static String password = "Sofa12";
+    private final static String login = System.getProperty("login");
+    private final static String password = System.getProperty("password");
     LoginPage lp;
 
     @BeforeEach
@@ -30,8 +30,7 @@ public class OtusTests extends AbsBaseTest {
     @Test
     public void authorizationWithCorrectData() {
         lp.auth(login, password);
-        WebElement h2 = driver.findElement(By.xpath("//h2[contains(text(),'Мои списки желаний')]"));
-        String resultMessage = h2.getText();
+        String resultMessage = driver.findElement(By.xpath("//h2[contains(text(),'Мои списки желаний')]")).getText();
         String expectedMassage = "Мои списки желаний";
         assertEquals(expectedMassage, resultMessage);
     }
@@ -45,13 +44,12 @@ public class OtusTests extends AbsBaseTest {
         assertEquals(expectedMassage, resultMessage);
     }
 
-    //TODO доделать поиск
     @Test
     public void userSearch() {
         lp.auth(login, password);
-        WebElement btnUsers = driver.findElement(By.cssSelector(".nav-link[href='/users']"));
-        btnUsers.click();
-        WebElement listUsers = driver.findElement(By.cssSelector(".g-4"));
+        driver.findElement(By.cssSelector(".nav-link[href='/users']")).click();
+        WebElement element = driver.findElement(By.xpath("//div[contains(text(),'Sofia')]"));
+        assertTrue(element.isDisplayed());
     }
 
     @Test
@@ -74,7 +72,6 @@ public class OtusTests extends AbsBaseTest {
         String name = "Сдать экзамен";
         wishListPage.inputWishName(name);
         wishListPage.clickBtnCreate();
-        driver.findElement(By.xpath("//h5[contains(text(),'Сдать экзамен')]"));
         wishListPage.clickBtnViewing();
         Thread.sleep(500);
         String resultMessage = wishListPage.nameWishCard();
@@ -84,15 +81,13 @@ public class OtusTests extends AbsBaseTest {
     @Test
     public void deleteWish() throws InterruptedException {
         lp.auth(login, password);
-        WebElement buttonType = driver.findElement(By.xpath("//button[contains(text(),'Создать новый список')]"));
-        buttonType.click();
-        WebElement input = driver.findElement(By.xpath("//input[@class='form-control']"));
-        input.sendKeys("Купить диван");
-        WebElement btnCreate = driver.findElement(By.xpath("//button[@type='submit']"));
-        btnCreate.click();
+        WishListPage wishListPage = new WishListPage(driver);
+        wishListPage.clickBtnWishList();
+        String name = "Сдать экзамен";
+        wishListPage.inputWishName(name);
+        wishListPage.clickBtnCreate();
         WebElement divCard = driver.findElement(By.xpath("//div[@class='card-body']"));
-        WebElement btnDelete = driver.findElement(By.xpath("//button[contains(text(),'Удалить')]"));
-        btnDelete.click();
+        driver.findElement(By.xpath("//button[contains(text(),'Удалить')]")).click();
         Thread.sleep(500);
         try {
             assertFalse(divCard.isDisplayed(), "Элемент не удалён!");
@@ -104,10 +99,8 @@ public class OtusTests extends AbsBaseTest {
     @Test
     public void exitUser() {
         lp.auth(login, password);
-        WebElement btnRole = driver.findElement(By.cssSelector(".nav-link[tabindex='0']"));
-        btnRole.click();
-        WebElement h2 = driver.findElement(By.xpath("//h2[contains(text(),'Вход в систему')]"));
-        String resultMessage = h2.getText();
+        driver.findElement(By.cssSelector(".nav-link[tabindex='0']")).click();
+        String resultMessage = driver.findElement(By.xpath("//h2[contains(text(),'Вход в систему')]")).getText();
         String expectedMassage = "Вход в систему";
         assertEquals(expectedMassage, resultMessage);
     }

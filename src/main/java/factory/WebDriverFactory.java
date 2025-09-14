@@ -13,7 +13,6 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class WebDriverFactory {
 
-   // private final String browser = System.getProperty("browser").toLowerCase().trim();
     private final BrowserType browser;
 
     public WebDriverFactory(BrowserType browser) {
