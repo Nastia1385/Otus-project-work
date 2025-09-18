@@ -6,6 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+/**
+ * PageObject для всего что связано с авторизацией
+ */
 public class LoginPage {
     WebDriver driver;
 
@@ -24,10 +27,21 @@ public class LoginPage {
 
     private final By errorMessage = By.cssSelector("div[role='alert']");
 
+    /**
+     * Метод ищет текст об ошибке авторизации
+     *
+     * @return текст сообщения об ошибке
+     */
     public String authErrorText() {
         return driver.findElement(errorMessage).getText();
     }
 
+    /**
+     * Метод производит авторизацию
+     *
+     * @param login логин
+     * @param password пароль
+     */
     public void auth(String login, String password) {
         loginField.sendKeys(login);
         passwordField.sendKeys(password);

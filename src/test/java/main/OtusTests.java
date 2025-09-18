@@ -13,6 +13,9 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Класс с основными тестами
+ */
 public class OtusTests extends AbsBaseTest {
 
     private final static String login = System.getProperty("login");
@@ -27,6 +30,9 @@ public class OtusTests extends AbsBaseTest {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
     }
 
+    /**
+     * Позитивный тест на авторизацию
+     */
     @Test
     public void authorizationWithCorrectData() {
         lp.auth(login, password);
@@ -35,6 +41,9 @@ public class OtusTests extends AbsBaseTest {
         assertEquals(expectedMassage, resultMessage);
     }
 
+    /**
+     * Негативный тест на авторизацию с использованием генерации случайного пароля
+     */
     @Test
     public void authorizationWithAnIncorrectPassword() {
         String password = RandomStringUtils.random(5, true, true);
@@ -44,6 +53,9 @@ public class OtusTests extends AbsBaseTest {
         assertEquals(expectedMassage, resultMessage);
     }
 
+    /**
+     * Тест проверят корректность отображения пользователя
+     */
     @Test
     public void userSearch() {
         lp.auth(login, password);
@@ -52,6 +64,9 @@ public class OtusTests extends AbsBaseTest {
         assertTrue(element.isDisplayed());
     }
 
+    /**
+     * Тест проверяет корректность создания списка желаний
+     */
     @Test
     public void createWishList() {
         lp.auth(login, password);
@@ -64,8 +79,11 @@ public class OtusTests extends AbsBaseTest {
         assertEquals(name, resultMessage);
     }
 
+    /**
+     * Тест проверяет корректность отображения карточки списка желаний
+     */
     @Test
-    public void ViewingWish() throws InterruptedException {
+    public void viewingWish() throws InterruptedException {
         lp.auth(login, password);
         WishListPage wishListPage = new WishListPage(driver);
         wishListPage.clickBtnWishList();
@@ -78,6 +96,9 @@ public class OtusTests extends AbsBaseTest {
         assertEquals(name, resultMessage);
     }
 
+    /**
+     * Тест проверяет корректность удаления списка желаний
+     */
     @Test
     public void deleteWish() throws InterruptedException {
         lp.auth(login, password);
@@ -96,6 +117,9 @@ public class OtusTests extends AbsBaseTest {
         }
     }
 
+    /**
+     * Тест проверят корректность выхода из системы
+     */
     @Test
     public void exitUser() {
         lp.auth(login, password);
