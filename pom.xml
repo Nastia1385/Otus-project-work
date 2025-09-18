@@ -18,6 +18,7 @@
         <selenium.version>4.33.0</selenium.version>
         <assertj.version>4.0.0-M1</assertj.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
+        <log.version>2.20.0</log.version>
 
         <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>3.5.4</maven.surefire.plugin.version>
@@ -54,6 +55,18 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
+        </dependency>
+
+        <!--        Логирование-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log.version}</version>
         </dependency>
 
     </dependencies>
